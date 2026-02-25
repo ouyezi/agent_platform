@@ -1,0 +1,26 @@
+name = "agent-management-platform"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+QWEN_API_KEY = "sk-2847be3d9f104d6fbaf791ca51a020c1"
+DEFAULT_MODEL = "qwen-plus"
+
+# 数据库配置
+[[ d1_databases ]]
+binding = "DB"
+database_name = "agent-platform-db"
+database_id = ""
+
+# 对象存储配置
+[[ r2_buckets ]]
+binding = "BUCKET"
+bucket_name = "agent-platform-storage"
+preview_bucket_name = "agent-platform-storage-preview"
+
+# 环境变量
+[env.development.vars]
+ENVIRONMENT = "development"
+
+[env.production.vars]
+ENVIRONMENT = "production"

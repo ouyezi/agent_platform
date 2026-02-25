@@ -1,0 +1,32 @@
+{
+  "name": "agent-platform",
+  "version": "1.0.0",
+  "description": "智能体管理平台 - 基于阿里云和通义千问",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node src/server.js",
+    "start": "node src/server.js",
+    "build": "echo 'Standard Node.js app, no build required'"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "qwen",
+    "alibaba-cloud",
+    "express"
+  ],
+  "author": "个人开发者",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
+    "uuid": "^9.0.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  }
+}
