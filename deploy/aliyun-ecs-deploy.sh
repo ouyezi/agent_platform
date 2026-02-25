@@ -9,7 +9,7 @@ set -e
 # 配置变量
 APP_NAME="agent-platform"
 APP_PORT=3000
-NODE_VERSION="18"
+NODE_VERSION="20"  # 使用Node.js 20.x LTS版本
 GITHUB_REPO="https://github.com/ouyezi/agent_platform.git"
 INSTALL_DIR="/opt/$APP_NAME"
 LOG_DIR="/var/log/$APP_NAME"
@@ -55,9 +55,34 @@ detect_os() {
     log "检测到操作系统: $OS $VER"
 }
 
+# 检查Node.js版本
+check_nodejs_version() {
+    log "检查Node.js版本要求..."
+    
+    if command -v node &> /dev/null; then
+        current_version=$(node --version | cut -d'.' -f1 | cut -dv -f2)
+        if [ "$current_version" -ge "$NODE_VERSION" ]; then
+            log "当前Node.js版本满足要求: $(node --version)"
+            return 0
+        else
+            warn "当前Node.js版本过低: $(node --version)，需要安装Node.js $NODE_VERSION.x"
+        fi
+    else
+        log "未检测到Node.js，将安装Node.js $NODE_VERSION.x"
+    fi
+    
+    return 1
+}
+
 # 安装Node.js
 install_nodejs() {
-    log "正在安装Node.js $NODE_VERSION..."
+    log "正在安装Node.js $NODE_VERSION.x LTS版本..."
+    
+    # 先检查是否已安装合适版本
+    if check_nodejs_version; then
+        log "Node.js版本已满足要求，跳过安装"
+        return 0
+    fi
     
     # 使用NodeSource仓库安装
     curl -fsSL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash -
@@ -68,6 +93,12 @@ install_nodejs() {
     npm_version=$(npm --version)
     log "Node.js版本: $node_version"
     log "npm版本: $npm_version"
+    
+    # 再次检查版本
+    if ! check_nodejs_version; then
+        error "Node.js安装失败或版本不符合要求"
+        exit 1
+    fi
 }
 
 # 安装系统依赖
@@ -280,6 +311,9 @@ main() {
     start_app
     
     log "部署完成！🎉"
+    log "重要提醒：请确保Node.js版本 >= 20.x"
+    log "当前Node.js版本: $(node --version)"
+    log ""
     log "请记得配置您的QWEN_API_KEY:"
     log "编辑文件: $INSTALL_DIR/.env"
     log "设置: QWEN_API_KEY=sk-your-api-key-here"
