@@ -45,7 +45,7 @@ agent-platform/
 
 ## 🚀 快速开始
 
-### 1. 服务器一键部署（推荐）
+### 1. 服务器部署（推荐方式）
 
 ```bash
 # SSH登录到你的服务器
@@ -65,6 +65,20 @@ nano /opt/agent-platform/.env
 
 # 重启服务
 supervisorctl restart agent-platform
+```
+
+### 2. 一行命令快速部署（备用方案）
+
+如果上面的方式不可用，可以使用这个方法：
+
+```bash
+# SSH登录到你的服务器
+ssh root@your-server-ip
+
+# 下载并运行部署脚本
+curl -O https://raw.githubusercontent.com/ouyezi/agent_platform/main/agent-platform/deploy/aliyun-ecs-deploy.sh
+chmod +x aliyun-ecs-deploy.sh
+./aliyun-ecs-deploy.sh
 ```
 
 ### 2. 本地开发
