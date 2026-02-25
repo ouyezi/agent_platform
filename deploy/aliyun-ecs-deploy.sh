@@ -144,9 +144,9 @@ deploy_app() {
     if [ ! -d ".git" ]; then
         log "克隆GitHub仓库: $GITHUB_REPO"
         git clone $GITHUB_REPO temp_clone
-        # 移动agent-platform目录的内容到当前目录
-        mv temp_clone/agent-platform/* .
-        mv temp_clone/agent-platform/.[^.]* . 2>/dev/null || true
+        # 移动仓库根目录的内容到当前目录
+        mv temp_clone/* .
+        mv temp_clone/.[^.]* . 2>/dev/null || true
         rm -rf temp_clone
     else
         # 更新代码
