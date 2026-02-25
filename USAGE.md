@@ -33,7 +33,7 @@ curl -fsSL https://raw.githubusercontent.com/ouyezi/agent_platform/main/agent-pl
 
 ### 克隆项目
 ```bash
-git clone https://github.com/ouyezi/agent_platform.git
+git clone https://gitee.com/todni/agent_platform.git
 cd agent_platform/agent-platform
 ```
 

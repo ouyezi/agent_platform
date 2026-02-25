@@ -2,7 +2,7 @@
 
 # 阿里云ECS一键部署脚本
 # 适用于Ubuntu/CentOS系统的ECS实例
-# 自动从GitHub克隆项目并完成部署
+# 自动从Gitee克隆项目并完成部署
 
 set -e
 
@@ -10,7 +10,7 @@ set -e
 APP_NAME="agent-platform"
 APP_PORT=3000
 NODE_VERSION="20"  # 使用Node.js 20.x LTS版本
-GITHUB_REPO="https://github.com/ouyezi/agent_platform.git"
+GITEE_REPO="https://gitee.com/todni/agent_platform.git"
 INSTALL_DIR="/opt/$APP_NAME"
 LOG_DIR="/var/log/$APP_NAME"
 USER="www-data"
@@ -136,16 +136,16 @@ setup_directories() {
 
 # 部署应用代码
 deploy_app() {
-    log "正在从GitHub克隆项目代码..."
+    log "正在从Gitee克隆项目代码..."
     
     cd $INSTALL_DIR
     
     # 如果是第一次部署，克隆代码
     if [ ! -d ".git" ]; then
-        log "克隆GitHub仓库: $GITHUB_REPO"
+        log "克隆Gitee仓库: $GITEE_REPO"
         # 清理可能存在的临时目录
         rm -rf temp_clone
-        git clone $GITHUB_REPO temp_clone
+        git clone $GITEE_REPO temp_clone
         # 移动仓库根目录的内容到当前目录
         mv temp_clone/* .
         mv temp_clone/.[^.]* . 2>/dev/null || true
@@ -158,7 +158,7 @@ deploy_app() {
     
     # 验证项目文件
     if [ ! -f "package.json" ] || [ ! -d "src" ]; then
-        error "项目文件不完整，请检查GitHub仓库"
+        error "项目文件不完整，请检查Gitee仓库"
         exit 1
     fi
     

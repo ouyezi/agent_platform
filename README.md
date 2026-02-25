@@ -1,10 +1,10 @@
 # 智能体管理平台
 
-一个基于通义千问的智能体管理平台，支持一键部署到阿里云ECS服务器。从GitHub快速克隆即可开始使用。
+一个基于通义千问的智能体管理平台，支持一键部署到阿里云ECS服务器。从Gitee快速克隆即可开始使用。
 
 ## 🚀 特性
 
-- **一键部署**：从GitHub克隆后可快速部署到服务器
+- **一键部署**：从Gitee克隆后可快速部署到服务器
 - **专为千问优化**：深度集成通义千问API
 - **轻量级架构**：Node.js + Express + SQLite，易于维护
 - **实时监控**：内置API调用统计和成本监控
@@ -52,7 +52,7 @@ agent-platform/
 ssh root@your-server-ip
 
 # 克隆项目
-git clone https://github.com/ouyezi/agent_platform.git
+git clone https://gitee.com/todni/agent_platform.git
 cd agent_platform/agent-platform
 
 # 运行一键部署脚本
@@ -76,7 +76,7 @@ supervisorctl restart agent-platform
 ssh root@your-server-ip
 
 # 下载并运行部署脚本
-curl -O https://raw.githubusercontent.com/ouyezi/agent_platform/main/agent-platform/deploy/aliyun-ecs-deploy.sh
+# 注意：Gitee暂不支持raw.githubusercontent.com格式的直接下载
 chmod +x aliyun-ecs-deploy.sh
 ./aliyun-ecs-deploy.sh
 ```
@@ -85,7 +85,7 @@ chmod +x aliyun-ecs-deploy.sh
 
 ```bash
 # 克隆项目
-git clone https://github.com/ouyezi/agent_platform.git
+git clone https://gitee.com/todni/agent_platform.git
 cd agent_platform/agent-platform
 
 # 安装依赖
@@ -103,7 +103,7 @@ npm run dev
 
 ```bash
 # 克隆项目
-git clone https://github.com/ouyezi/agent_platform.git
+git clone https://gitee.com/todni/agent_platform.git
 cd agent_platform/agent-platform
 
 # 创建环境变量文件
@@ -198,12 +198,12 @@ tail -f /var/log/agent-platform/access.log
 
 ### 本地开发流程
 
-1. Fork项目到你的GitHub账户
+1. Fork项目到你的Gitee账户
 2. 克隆到本地进行开发
 3. 提交PR到主仓库
 
 ```bash
-git clone https://github.com/your-username/agent_platform.git
+git clone https://gitee.com/your-username/agent_platform.git
 cd agent_platform/agent-platform
 npm install
 npm run dev

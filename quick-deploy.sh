@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 快速部署脚本 - 一行命令部署到服务器
-# 使用方法: curl -fsSL https://raw.githubusercontent.com/ouyezi/agent_platform/main/agent-platform/quick-deploy.sh | bash
+# 使用方法: 请从Gitee仓库直接下载此脚本
 
 set -e
 
@@ -26,7 +26,7 @@ error() {
 # 检查是否为root用户
 if [[ $EUID -ne 0 ]]; then
     error "请使用root用户或sudo权限运行此脚本"
-    echo "使用方法: curl -fsSL https://raw.githubusercontent.com/ouyezi/agent_platform/main/agent-platform/quick-deploy.sh | sudo bash"
+    echo "使用方法: 请从Gitee仓库直接下载此脚本并运行"
     exit 1
 fi
 
@@ -41,10 +41,10 @@ log "安装Git和curl..."
 apt-get install -y git curl
 
 # 克隆项目
-log "克隆GitHub项目..."
+log "克隆Gitee项目..."
 cd /tmp
 rm -rf agent_platform_temp
-git clone https://github.com/ouyezi/agent_platform.git agent_platform_temp
+git clone https://gitee.com/todni/agent_platform.git agent_platform_temp
 
 # 运行正式部署脚本
 log "运行部署脚本..."

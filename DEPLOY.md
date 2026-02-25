@@ -43,7 +43,7 @@ node --version  # 应该显示 v20.x.x
 npm --version   # 应该显示 9.x.x 或更高
 
 # 4. 克隆项目
-git clone https://github.com/ouyezi/agent_platform.git
+git clone https://gitee.com/todni/agent_platform.git
 cd agent_platform/agent-platform
 
 # 5. 运行部署脚本
@@ -74,7 +74,7 @@ sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker
 sudo chmod +x /usr/local/bin/docker-compose
 
 # 3. 克隆项目
-git clone https://github.com/ouyezi/agent_platform.git
+git clone https://gitee.com/todni/agent_platform.git
 cd agent_platform/agent-platform
 
 # 4. 创建环境变量文件

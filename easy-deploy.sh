@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# 简易部署脚本 - 适用于GitHub仓库
-# 使用方法: curl -fsSL https://raw.githubusercontent.com/ouyezi/agent_platform/main/agent-platform/easy-deploy.sh | sudo bash
+# 简易部署脚本 - 适用于Gitee仓库
+# 使用方法: 请从Gitee仓库直接下载此脚本
 
 set -e
 
@@ -26,7 +26,7 @@ error() {
 # 检查是否为root用户
 if [[ $EUID -ne 0 ]]; then
     error "请使用root用户或sudo权限运行此脚本"
-    echo "使用方法: curl -fsSL https://raw.githubusercontent.com/ouyezi/agent_platform/main/agent-platform/easy-deploy.sh | sudo bash"
+    echo "使用方法: 请从Gitee仓库直接下载此脚本并运行"
     exit 1
 fi
 
@@ -47,13 +47,13 @@ mkdir -p $DEPLOY_DIR
 cd $DEPLOY_DIR
 
 # 克隆项目
-log "克隆GitHub项目..."
-git clone https://github.com/ouyezi/agent_platform.git
+log "克隆Gitee项目..."
+git clone https://gitee.com/todni/agent_platform.git
 cd agent_platform/agent-platform
 
 # 检查关键文件是否存在
 if [[ ! -f "deploy/aliyun-ecs-deploy.sh" ]]; then
-    error "部署脚本不存在，请检查GitHub仓库"
+    error "部署脚本不存在，请检查Gitee仓库"
     exit 1
 fi
 
