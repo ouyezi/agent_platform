@@ -57,18 +57,19 @@ detect_os() {
 
 # 检查Node.js版本
 check_nodejs_version() {
-    log "检查Node.js版本要求..."
+    log "检查Node.js版本要求 (需要 >= $NODE_VERSION.x)..."
     
     if command -v node &> /dev/null; then
         current_version=$(node --version | cut -d'.' -f1 | cut -dv -f2)
+        current_full_version=$(node --version)
         if [ "$current_version" -ge "$NODE_VERSION" ]; then
-            log "当前Node.js版本满足要求: $(node --version)"
+            log "✅ 当前Node.js版本满足要求: $current_full_version"
             return 0
         else
-            warn "当前Node.js版本过低: $(node --version)，需要安装Node.js $NODE_VERSION.x"
+            warn "⚠️  当前Node.js版本过低: $current_full_version，需要安装Node.js $NODE_VERSION.x"
         fi
     else
-        log "未检测到Node.js，将安装Node.js $NODE_VERSION.x"
+        log "ℹ️  未检测到Node.js，将安装Node.js $NODE_VERSION.x LTS版本"
     fi
     
     return 1
@@ -76,27 +77,31 @@ check_nodejs_version() {
 
 # 安装Node.js
 install_nodejs() {
-    log "正在安装Node.js $NODE_VERSION.x LTS版本..."
+    log "🚀 正在安装Node.js $NODE_VERSION.x LTS版本..."
+    log "💡 提示：如果看到NodeSource显示18相关字样，请忽略，实际安装的是Node.js $NODE_VERSION.x"
     
     # 先检查是否已安装合适版本
     if check_nodejs_version; then
-        log "Node.js版本已满足要求，跳过安装"
+        log "✅ Node.js版本已满足要求，跳过安装"
         return 0
     fi
     
     # 使用NodeSource仓库安装
+    log "📥 下载NodeSource安装脚本 ($NODE_VERSION.x)..."
     curl -fsSL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash -
+    log "📦 安装Node.js $NODE_VERSION.x..."
     apt-get install -y nodejs
     
     # 验证安装
     node_version=$(node --version)
     npm_version=$(npm --version)
-    log "Node.js版本: $node_version"
-    log "npm版本: $npm_version"
+    log "✅ Node.js安装完成"
+    log "📊 Node.js版本: $node_version"
+    log "📊 npm版本: $npm_version"
     
     # 再次检查版本
     if ! check_nodejs_version; then
-        error "Node.js安装失败或版本不符合要求"
+        error "❌ Node.js安装失败或版本不符合要求"
         exit 1
     fi
 }
@@ -310,18 +315,21 @@ main() {
     setup_env_vars
     start_app
     
-    log "部署完成！🎉"
-    log "重要提醒：请确保Node.js版本 >= 20.x"
-    log "当前Node.js版本: $(node --version)"
+    log "🎉 部署完成！"
     log ""
-    log "请记得配置您的QWEN_API_KEY:"
+    log "📋 部署验证:"
+    log "✅ Node.js版本: $(node --version) (要求 >= $NODE_VERSION.x)"
+    log "✅ npm版本: $(npm --version)"
+    log ""
+    log "⚙️  下一步配置:"
+    log "请配置您的QWEN_API_KEY:"
     log "编辑文件: $INSTALL_DIR/.env"
     log "设置: QWEN_API_KEY=sk-your-api-key-here"
     log "然后重启应用: supervisorctl restart $APP_NAME"
     log ""
-    log "访问地址: http://$(hostname -I | awk '{print $1}')"
-    log "健康检查: curl http://$(hostname -I | awk '{print $1}')/health"
-    log "查看日志: tail -f $LOG_DIR/access.log"
+    log "🌐 访问地址: http://$(hostname -I | awk '{print $1}')"
+    log "🔧 健康检查: curl http://$(hostname -I | awk '{print $1}')/health"
+    log "📝 查看日志: tail -f $LOG_DIR/access.log"
 }
 
 # 运行主函数
