@@ -143,6 +143,8 @@ deploy_app() {
     # 如果是第一次部署，克隆代码
     if [ ! -d ".git" ]; then
         log "克隆GitHub仓库: $GITHUB_REPO"
+        # 清理可能存在的临时目录
+        rm -rf temp_clone
         git clone $GITHUB_REPO temp_clone
         # 移动仓库根目录的内容到当前目录
         mv temp_clone/* .
