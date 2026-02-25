@@ -6,8 +6,8 @@
 set -e
 
 # 配置变量
-PROJECT_DIR="/Users/tongqianni/agent_platform/agent-platform"
-SERVICE_NAME="agent-management-platform"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SERVICE_NAME="agent-platform"
 PID_FILE="$PROJECT_DIR/.service.pid"
 LOG_FILE="$PROJECT_DIR/service.log"
 

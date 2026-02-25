@@ -2,6 +2,7 @@
 
 # 阿里云ECS一键部署脚本
 # 适用于Ubuntu/CentOS系统的ECS实例
+# 自动从GitHub克隆项目并完成部署
 
 set -e
 
@@ -9,6 +10,7 @@ set -e
 APP_NAME="agent-platform"
 APP_PORT=3000
 NODE_VERSION="18"
+GITHUB_REPO="https://github.com/ouyezi/agent_platform.git"
 INSTALL_DIR="/opt/$APP_NAME"
 LOG_DIR="/var/log/$APP_NAME"
 USER="www-data"
@@ -98,33 +100,39 @@ setup_directories() {
 
 # 部署应用代码
 deploy_app() {
-    log "正在部署应用代码..."
+    log "正在从GitHub克隆项目代码..."
     
     cd $INSTALL_DIR
     
     # 如果是第一次部署，克隆代码
     if [ ! -d ".git" ]; then
-        # 这里假设代码已经在本地，如果是远程仓库需要替换为git clone命令
-        # git clone <your-repo-url> .
-        cp -r /tmp/agent-platform/* . 2>/dev/null || true
-        
-        # 如果没有代码源，创建基本结构
-        if [ ! -f "package.json" ]; then
-            log "创建基础项目结构..."
-            npm init -y
-            npm install express cors sqlite3 sqlite uuid zod
-        fi
+        log "克隆GitHub仓库: $GITHUB_REPO"
+        git clone $GITHUB_REPO temp_clone
+        # 移动agent-platform目录的内容到当前目录
+        mv temp_clone/agent-platform/* .
+        mv temp_clone/agent-platform/.[^.]* . 2>/dev/null || true
+        rm -rf temp_clone
     else
         # 更新代码
+        log "更新现有代码..."
         git pull
     fi
     
+    # 验证项目文件
+    if [ ! -f "package.json" ] || [ ! -d "src" ]; then
+        error "项目文件不完整，请检查GitHub仓库"
+        exit 1
+    fi
+    
     # 安装npm依赖
+    log "安装生产环境依赖..."
     npm install --production
     
     # 创建数据目录
     mkdir -p data
     chown $USER:$USER data
+    
+    log "应用代码部署完成"
 }
 
 # 配置Nginx反向代理
@@ -274,7 +282,12 @@ main() {
     log "部署完成！🎉"
     log "请记得配置您的QWEN_API_KEY:"
     log "编辑文件: $INSTALL_DIR/.env"
+    log "设置: QWEN_API_KEY=sk-your-api-key-here"
     log "然后重启应用: supervisorctl restart $APP_NAME"
+    log ""
+    log "访问地址: http://$(hostname -I | awk '{print $1}')"
+    log "健康检查: curl http://$(hostname -I | awk '{print $1}')/health"
+    log "查看日志: tail -f $LOG_DIR/access.log"
 }
 
 # 运行主函数

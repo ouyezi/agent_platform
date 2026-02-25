@@ -2,10 +2,11 @@
 
 ## 概述
 
-本文档介绍如何将智能体管理平台部署到阿里云ECS服务器。提供了两种部署方式：
+本文档介绍如何将智能体管理平台部署到阿里云ECS服务器。提供了三种部署方式：
 
-1. **传统部署** - 直接在ECS上安装运行（推荐新手）
-2. **Docker部署** - 使用容器化部署（推荐生产环境）
+1. **一键快速部署** - 最简单的方式，一行命令完成（强烈推荐）
+2. **传统部署** - 直接在ECS上安装运行（适合需要自定义配置）
+3. **Docker部署** - 使用容器化部署（推荐生产环境）
 
 ## 系统要求
 
@@ -14,7 +15,21 @@
 - 公网IP地址
 - 安全组开放端口：22(SSH)、80(HTTP)、443(HTTPS)
 
-## 方式一：传统部署（推荐）
+## 方式一：一键快速部署（最推荐）
+
+只需一行命令即可完成全部部署：
+
+```bash
+# SSH登录到你的服务器
+ssh root@your-server-ip
+
+# 运行一键部署命令
+curl -fsSL https://raw.githubusercontent.com/ouyezi/agent_platform/main/agent-platform/quick-deploy.sh | sudo bash
+```
+
+部署完成后按照提示配置API密钥即可。
+
+## 方式二：传统部署（手动方式）
 
 ### 1. 准备工作
 
@@ -23,18 +38,15 @@
 ssh root@your-server-ip
 ```
 
-### 2. 下载部署脚本
+### 2. 克隆项目代码
 
 ```bash
-# 创建临时目录
-mkdir -p /tmp/agent-platform
-cd /tmp/agent-platform
-
-# 上传你的项目代码到此目录
-# 或者使用git clone下载代码
+# 克隆项目
+git clone https://github.com/ouyezi/agent_platform.git
+cd agent_platform/agent-platform
 ```
 
-### 3. 运行一键部署脚本
+### 3. 运行部署脚本
 
 ```bash
 # 给脚本添加执行权限
